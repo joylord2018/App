@@ -1,0 +1,154 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@include file="common/header.jsp"%>
+<div class="clearfix"></div>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>修改APP最新版本信息 <i class="fa fa-user"></i><small>测试001</small></h2>
+            <div class="clearfix"></div>
+      </div>
+      <div class="x_title">
+            <h2>历史版本列表</h2>
+          <div class="clearfix"></div>
+      </div>
+      <div class="x_content1">
+      <div class="clearfix"></div>
+	  <p class="text-muted font-13 m-b-30"></p>
+		<div id="datatable-responsive_wrapper"
+			class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+			<div class="row">
+				<div class="col-sm-12">
+					<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
+						cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;">
+						<thead>
+							<tr role="row">
+								<th class="sorting_asc" tabindex="0"
+									aria-controls="datatable-responsive" rowspan="1" colspan="1"
+									style="width: 70px;" aria-label="First name: activate to sort column descending"
+									aria-sort="ascending">软件名称</th>
+								<th class="sorting" tabindex="0"
+									aria-controls="datatable-responsive" rowspan="1" colspan="1"
+									style="width: 10px;"
+									aria-label="Last name: activate to sort column ascending">
+									版本号</th>
+								<th class="sorting" tabindex="0"
+									aria-controls="datatable-responsive" rowspan="1" colspan="1"
+									style="width: 90px;"
+									aria-label="Last name: activate to sort column ascending">
+									版本大小(单位:M)</th>
+								<th class="sorting" tabindex="0"
+									aria-controls="datatable-responsive" rowspan="1" colspan="1"
+									style="width: 50px;"
+									aria-label="Last name: activate to sort column ascending">
+									发布状态</th>
+								<th class="sorting" tabindex="0"
+									aria-controls="datatable-responsive" rowspan="1" colspan="1"
+									style="width: 50px;"
+									aria-label="Last name: activate to sort column ascending">
+									APK文件下载</th>
+								<th class="sorting" tabindex="0"
+									aria-controls="datatable-responsive" rowspan="1" colspan="1"
+									style="width: 50px;"
+									aria-label="Last name: activate to sort column ascending">
+									最新更新时间</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${li2 }" var="ver">
+								<tr role="row" class="odd">
+									<td tabindex="0" class="sorting_1">${ver.iname }</td>
+									<td>${ver.versionno }</td>
+									<td>${ver.versionsize }</td>
+									<td>${ver.sname }</td>
+									<td>
+									<a href="#">${ver.apkfilename }</a>
+									</td>
+									<td>
+									<fmt:formatDate value="${ver.modifydate }" pattern="yyyy-MM-dd"/>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+        <div class="clearfix"></div>
+        <div class="x_title">
+            <h2>修改最新版本信息</h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+            </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content" style="display: block;">
+         <br>
+        <form class="form-horizontal form-label-left" action="developer/updateversion.html" method="post" enctype="multipart/form-data">
+           <input type="hidden" name="id" id="id" value="${newver.id }">
+           <input type="hidden" name="appid" id="appId" value="${newver.appid }">
+          <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">版本号 <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input class="form-control col-md-7 col-xs-12" value="${newver.versionno }" 
+              type="text" readonly="readonly" id="versionNo" name="versionno">
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">版本大小 <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input type="number" id="versionSize" name="versionsize" value="${newver.versionsize }"  required="required"
+              data-validate-minmax="10,500"  placeholder="请输入版本大小，单位为Mb" class="form-control col-md-7 col-xs-12">
+            </div>
+          </div>
+       
+          <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="select">发布状态 <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              ${newver.sname }
+            </div>
+          </div>
+        
+          <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">版本简介 <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <textarea id="versioninfo" name="versioninfo" required="required" placeholder="${newver.versioninfo }" class="form-control col-md-7 col-xs-12">
+              </textarea>
+            </div>
+          </div>
+           <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">apk文件 <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+           <%--  <input type="hidden" id="downloadLink" name="downloadlink" value="${newver.downloadlink }"/>
+            <input type="hidden" id="apkLocPath" name="apklocpath" value="${newver.apklocpath }"/>
+            <input type="hidden" id="apkFileName" name="apkFileName" value="${newver.apkfilename }"/> --%>
+			<div id="uploadfile">
+				<input id="attach" type="file" class="form-control col-md-7 col-xs-12" name="apk">
+				<p><span style="color:red;font-weight: bold;">*注：1、大小不得超过500m.2、文件类型：apk</span></p>
+			</div>
+			<div id="apkFile"></div>
+		
+            </div>
+          </div>
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <div class="col-md-6 col-md-offset-3">
+              <button id="send" type="submit" class="btn btn-success">保存</button>
+              <button type="button" class="btn btn-primary" id="back">返回</button>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <br/><br/>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%@include file="common/footer.jsp"%>

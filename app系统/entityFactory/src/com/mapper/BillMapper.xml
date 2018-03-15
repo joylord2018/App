@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.BillMapper">
+  <resultMap id="BaseResultMap" type="com.entity.Bill">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="billCode" jdbcType="VARCHAR" property="billcode" />
+    <result column="productName" jdbcType="VARCHAR" property="productname" />
+    <result column="prodcutDesc" jdbcType="VARCHAR" property="prodcutdesc" />
+    <result column="productUnit" jdbcType="VARCHAR" property="productunit" />
+    <result column="productCount" jdbcType="DOUBLE" property="productcount" />
+    <result column="totlePrice" jdbcType="DOUBLE" property="totleprice" />
+    <result column="isPayment" jdbcType="INTEGER" property="ispayment" />
+    <result column="providerId" jdbcType="INTEGER" property="providerid" />
+    <result column="createBy" jdbcType="INTEGER" property="createby" />
+    <result column="creationDate" jdbcType="TIMESTAMP" property="creationdate" />
+    <result column="modifyBy" jdbcType="INTEGER" property="modifyby" />
+    <result column="modifyDate" jdbcType="TIMESTAMP" property="modifydate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, billCode, productName, prodcutDesc, productUnit, productCount, totlePrice, isPayment, 
+    providerId, createBy, creationDate, modifyBy, modifyDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from smbms_bill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from smbms_bill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.Bill">
+    insert into smbms_bill (id, billCode, productName, 
+      prodcutDesc, productUnit, productCount, 
+      totlePrice, isPayment, providerId, 
+      createBy, creationDate, modifyBy, 
+      modifyDate)
+    values (#{id,jdbcType=INTEGER}, #{billcode,jdbcType=VARCHAR}, #{productname,jdbcType=VARCHAR}, 
+      #{prodcutdesc,jdbcType=VARCHAR}, #{productunit,jdbcType=VARCHAR}, #{productcount,jdbcType=DOUBLE}, 
+      #{totleprice,jdbcType=DOUBLE}, #{ispayment,jdbcType=INTEGER}, #{providerid,jdbcType=INTEGER}, 
+      #{createby,jdbcType=INTEGER}, #{creationdate,jdbcType=TIMESTAMP}, #{modifyby,jdbcType=INTEGER}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.entity.Bill">
+    insert into smbms_bill
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="billcode != null">
+        billCode,
+      </if>
+      <if test="productname != null">
+        productName,
+      </if>
+      <if test="prodcutdesc != null">
+        prodcutDesc,
+      </if>
+      <if test="productunit != null">
+        productUnit,
+      </if>
+      <if test="productcount != null">
+        productCount,
+      </if>
+      <if test="totleprice != null">
+        totlePrice,
+      </if>
+      <if test="ispayment != null">
+        isPayment,
+      </if>
+      <if test="providerid != null">
+        providerId,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="creationdate != null">
+        creationDate,
+      </if>
+      <if test="modifyby != null">
+        modifyBy,
+      </if>
+      <if test="modifydate != null">
+        modifyDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="billcode != null">
+        #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="prodcutdesc != null">
+        #{prodcutdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productunit != null">
+        #{productunit,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount != null">
+        #{productcount,jdbcType=DOUBLE},
+      </if>
+      <if test="totleprice != null">
+        #{totleprice,jdbcType=DOUBLE},
+      </if>
+      <if test="ispayment != null">
+        #{ispayment,jdbcType=INTEGER},
+      </if>
+      <if test="providerid != null">
+        #{providerid,jdbcType=INTEGER},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=INTEGER},
+      </if>
+      <if test="creationdate != null">
+        #{creationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyby != null">
+        #{modifyby,jdbcType=INTEGER},
+      </if>
+      <if test="modifydate != null">
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.Bill">
+    update smbms_bill
+    <set>
+      <if test="billcode != null">
+        billCode = #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="prodcutdesc != null">
+        prodcutDesc = #{prodcutdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productunit != null">
+        productUnit = #{productunit,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount != null">
+        productCount = #{productcount,jdbcType=DOUBLE},
+      </if>
+      <if test="totleprice != null">
+        totlePrice = #{totleprice,jdbcType=DOUBLE},
+      </if>
+      <if test="ispayment != null">
+        isPayment = #{ispayment,jdbcType=INTEGER},
+      </if>
+      <if test="providerid != null">
+        providerId = #{providerid,jdbcType=INTEGER},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=INTEGER},
+      </if>
+      <if test="creationdate != null">
+        creationDate = #{creationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyby != null">
+        modifyBy = #{modifyby,jdbcType=INTEGER},
+      </if>
+      <if test="modifydate != null">
+        modifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.Bill">
+    update smbms_bill
+    set billCode = #{billcode,jdbcType=VARCHAR},
+      productName = #{productname,jdbcType=VARCHAR},
+      prodcutDesc = #{prodcutdesc,jdbcType=VARCHAR},
+      productUnit = #{productunit,jdbcType=VARCHAR},
+      productCount = #{productcount,jdbcType=DOUBLE},
+      totlePrice = #{totleprice,jdbcType=DOUBLE},
+      isPayment = #{ispayment,jdbcType=INTEGER},
+      providerId = #{providerid,jdbcType=INTEGER},
+      createBy = #{createby,jdbcType=INTEGER},
+      creationDate = #{creationdate,jdbcType=TIMESTAMP},
+      modifyBy = #{modifyby,jdbcType=INTEGER},
+      modifyDate = #{modifydate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.model.Bill">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="billCode" jdbcType="VARCHAR" property="billcode" />
+    <result column="productName" jdbcType="VARCHAR" property="productname" />
+    <result column="prodcutDesc" jdbcType="VARCHAR" property="prodcutdesc" />
+    <result column="productUnit" jdbcType="VARCHAR" property="productunit" />
+    <result column="productCount" jdbcType="DOUBLE" property="productcount" />
+    <result column="totlePrice" jdbcType="DOUBLE" property="totleprice" />
+    <result column="isPayment" jdbcType="INTEGER" property="ispayment" />
+    <result column="providerId" jdbcType="INTEGER" property="providerid" />
+    <result column="createBy" jdbcType="INTEGER" property="createby" />
+    <result column="creationDate" jdbcType="TIMESTAMP" property="creationdate" />
+    <result column="modifyBy" jdbcType="INTEGER" property="modifyby" />
+    <result column="modifyDate" jdbcType="TIMESTAMP" property="modifydate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, billCode, productName, prodcutDesc, productUnit, productCount, totlePrice, isPayment, 
+    providerId, createBy, creationDate, modifyBy, modifyDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from smbms_bill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from smbms_bill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.model.Bill">
+    insert into smbms_bill (id, billCode, productName, 
+      prodcutDesc, productUnit, productCount, 
+      totlePrice, isPayment, providerId, 
+      createBy, creationDate, modifyBy, 
+      modifyDate)
+    values (#{id,jdbcType=INTEGER}, #{billcode,jdbcType=VARCHAR}, #{productname,jdbcType=VARCHAR}, 
+      #{prodcutdesc,jdbcType=VARCHAR}, #{productunit,jdbcType=VARCHAR}, #{productcount,jdbcType=DOUBLE}, 
+      #{totleprice,jdbcType=DOUBLE}, #{ispayment,jdbcType=INTEGER}, #{providerid,jdbcType=INTEGER}, 
+      #{createby,jdbcType=INTEGER}, #{creationdate,jdbcType=TIMESTAMP}, #{modifyby,jdbcType=INTEGER}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Bill">
+    insert into smbms_bill
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="billcode != null">
+        billCode,
+      </if>
+      <if test="productname != null">
+        productName,
+      </if>
+      <if test="prodcutdesc != null">
+        prodcutDesc,
+      </if>
+      <if test="productunit != null">
+        productUnit,
+      </if>
+      <if test="productcount != null">
+        productCount,
+      </if>
+      <if test="totleprice != null">
+        totlePrice,
+      </if>
+      <if test="ispayment != null">
+        isPayment,
+      </if>
+      <if test="providerid != null">
+        providerId,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="creationdate != null">
+        creationDate,
+      </if>
+      <if test="modifyby != null">
+        modifyBy,
+      </if>
+      <if test="modifydate != null">
+        modifyDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="billcode != null">
+        #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="prodcutdesc != null">
+        #{prodcutdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productunit != null">
+        #{productunit,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount != null">
+        #{productcount,jdbcType=DOUBLE},
+      </if>
+      <if test="totleprice != null">
+        #{totleprice,jdbcType=DOUBLE},
+      </if>
+      <if test="ispayment != null">
+        #{ispayment,jdbcType=INTEGER},
+      </if>
+      <if test="providerid != null">
+        #{providerid,jdbcType=INTEGER},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=INTEGER},
+      </if>
+      <if test="creationdate != null">
+        #{creationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyby != null">
+        #{modifyby,jdbcType=INTEGER},
+      </if>
+      <if test="modifydate != null">
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Bill">
+    update smbms_bill
+    <set>
+      <if test="billcode != null">
+        billCode = #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="prodcutdesc != null">
+        prodcutDesc = #{prodcutdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productunit != null">
+        productUnit = #{productunit,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount != null">
+        productCount = #{productcount,jdbcType=DOUBLE},
+      </if>
+      <if test="totleprice != null">
+        totlePrice = #{totleprice,jdbcType=DOUBLE},
+      </if>
+      <if test="ispayment != null">
+        isPayment = #{ispayment,jdbcType=INTEGER},
+      </if>
+      <if test="providerid != null">
+        providerId = #{providerid,jdbcType=INTEGER},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=INTEGER},
+      </if>
+      <if test="creationdate != null">
+        creationDate = #{creationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyby != null">
+        modifyBy = #{modifyby,jdbcType=INTEGER},
+      </if>
+      <if test="modifydate != null">
+        modifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Bill">
+    update smbms_bill
+    set billCode = #{billcode,jdbcType=VARCHAR},
+      productName = #{productname,jdbcType=VARCHAR},
+      prodcutDesc = #{prodcutdesc,jdbcType=VARCHAR},
+      productUnit = #{productunit,jdbcType=VARCHAR},
+      productCount = #{productcount,jdbcType=DOUBLE},
+      totlePrice = #{totleprice,jdbcType=DOUBLE},
+      isPayment = #{ispayment,jdbcType=INTEGER},
+      providerId = #{providerid,jdbcType=INTEGER},
+      createBy = #{createby,jdbcType=INTEGER},
+      creationDate = #{creationdate,jdbcType=TIMESTAMP},
+      modifyBy = #{modifyby,jdbcType=INTEGER},
+      modifyDate = #{modifydate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

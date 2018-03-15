@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd 
+	">
+	<!-- 配置数据源 -->
+	<!-- 配置文件配置数据源 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:datasource.properties"></property>
+	</bean>
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="${driver}">
+		</property>
+		<property name="url"
+			value="${url}">
+		</property>
+		<property name="username" value="${username}"></property>
+		<property name="password" value="${password}"></property>
+	</bean>
+	<!-- <bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/usermanage?useEncoding=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull">
+		</property>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+	</bean> -->
+	<!-- 获取sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="typeAliasesPackage" value="com.app.entity"></property>
+		<property name="mapperLocations" value="classpath*:com/app/mapper/*.xml"></property>
+	</bean>
+	<!-- 获取sqlSessionTemplate -->
+<!-- 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+	</bean> -->
+	<!-- 配置mapper和dao映射 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.app.dao"></property>
+	</bean>
+	<!-- 注解注入 -->
+	<context:component-scan base-package="com.app.service.impl,com.app.listerner"></context:component-scan>
+	<!-- 配置事务管理器 -->
+	<bean id="txManage" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 切面 -->
+	<tx:advice id="txAdvice" transaction-manager="txManage">
+		<tx:attributes>
+			<!-- <tx:method name="*" propagation="REQUIRED"/> --><!-- 默认事务模式 -->
+			<tx:method name="*" isolation="DEFAULT"/><!-- 默认更具数据库回滚 -->
+		</tx:attributes>
+	</tx:advice>
+	<!-- 切入点及织入 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.app.service.impl.*.*(..))" id="pt"/>
+		<!-- 织入 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pt"/>
+	</aop:config>
+	</beans>

@@ -1,0 +1,10 @@
+SELECT ai.*,s.scn AS t1,g.scn AS t2,v.scn AS t3 FROM `app_info` ai
+LEFT JOIN 
+(SELECT id AS sid,categoryName AS scn FROM `app_category`) s 
+ON ai.`categoryLevel1`=sid
+LEFT JOIN 
+(SELECT id AS gid,categoryName AS scn FROM `app_category`) g 
+ON ai.`categoryLevel2`=gid
+LEFT JOIN 
+(SELECT id AS vid,categoryName AS scn FROM `app_category`) v 
+ON ai.`categoryLevel3`=vid

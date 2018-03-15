@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.Infodao" >
+<select id="infopage" resultType="Info">
+	select * from app_info 
+	<where>
+		<if test="Infovo.infoname!=null and Infovo.infoname!=''"> and softwareName like concat('%',#{Infovo.infoname},'%')</if>
+		<if test="Infovo.flatformId!=null and Infovo.flatformId!=0"> and flatformid = #{Infovo.flatformId}</if>
+		<if test="Infovo.categoryLevel1!=null and Infovo.categoryLevel1!=0"> and categoryLevel1=#{Infovo.categoryLevel1}</if>
+		<if test="Infovo.categoryLevel2!=null and Infovo.categoryLevel2!=0"> and categoryLevel2=#{Infovo.categoryLevel2}</if>
+		<if test="Infovo.categoryLevel3!=null and Infovo.categoryLevel3!=0"> and categoryLevel3=#{Infovo.categoryLevel3}</if>
+	</where>
+	order by creationDate limit #{index},#{pagesize}
+</select>
+<select id="maxCount" resultType="int">
+	select count(*) from app_info
+	<where>
+		<if test="Infovo.infoname!=null and Infovo.infoname!=''"> and softwareName like concat('%',#{Infovo.infoname},'%')</if>
+		<if test="Infovo.flatformId!=null and Infovo.flatformId!=0"> and flatformid = #{Infovo.flatformId}</if>
+		<if test="Infovo.categoryLevel1!=null and Infovo.categoryLevel1!=0"> and categoryLevel1=#{Infovo.categoryLevel1}</if>
+		<if test="Infovo.categoryLevel2!=null and Infovo.categoryLevel2!=0"> and categoryLevel2=#{Infovo.categoryLevel2}</if>
+		<if test="Infovo.categoryLevel3!=null and Infovo.categoryLevel3!=0"> and categoryLevel3=#{Infovo.categoryLevel3}</if>
+		<if test="Infovo.devid!=null">and devid=#{Infovo.devid}</if>
+		<if test="Infovo.status!=null and Infovo.status!=0">and status=#{Infovo.status}</if>
+	</where>
+</select>
+<select id="findbyid" resultType="Info">
+SELECT ai.*,s.scn AS t1,g.scn AS t2,v.scn AS t3,q.scn AS fname,w.scn AS sname FROM `app_info` ai
+LEFT JOIN 
+(SELECT id AS sid,categoryName AS scn FROM `app_category`) s 
+ON ai.`categoryLevel1`=sid
+LEFT JOIN 
+(SELECT id AS gid,categoryName AS scn FROM `app_category`) g 
+ON ai.`categoryLevel2`=gid
+LEFT JOIN 
+(SELECT id AS vid,categoryName AS scn FROM `app_category`) v 
+ON ai.`categoryLevel3`=vid
+LEFT JOIN 
+(SELECT valueid AS qid,valuename  AS scn FROM `data_dictionary` WHERE typecode="APP_FLATFORM") q 
+ON ai.flatformId=qid
+LEFT JOIN 
+(SELECT valueid AS wid,valuename  AS scn FROM `data_dictionary` WHERE typecode="APP_STATUS") w
+ON ai.status=wid
+<where>
+	<if test="id!=null">and id=#{id}</if>
+	<if test="devid!=null">and devid=#{devid}</if>
+</where>
+</select>
+
+<update id="check">
+	update app_info set status=#{st} where id=#{id}
+</update>
+
+<insert id="add">
+	insert into app_info (softwareName,APKName,supportROM,interfaceLanguage,softwareSize,updateDate, devId, appInfo,status, onSaleDate, offSaleDate, 
+      flatformId, categoryLevel3, downloads, 
+      createdBy, creationDate, modifyBy, 
+      modifyDate, categoryLevel1, categoryLevel2, 
+      logoPicPath, logoLocPath, versionId
+      ) values(#{infoer.softwarename},#{infoer.apkname},#{infoer.supportrom},#{infoer.interfacelanguage},#{infoer.softwaresize},#{infoer.updatedate},#{infoer.devid},#{infoer.appinfo},#{infoer.status},#{infoer.onsaledate},#{infoer.offsaledate}, 
+      #{infoer.flatformid}, #{infoer.categorylevel3}, #{infoer.downloads}, 
+      #{infoer.createdby}, #{infoer.creationdate}, #{infoer.modifyby}, 
+      #{infoer.modifydate}, #{infoer.categorylevel1}, #{infoer.categorylevel2}, 
+      #{infoer.logopicpath},#{infoer.logolocpath}, #{infoer.versionid})
+</insert>
+
+
+<select id="infoye" resultType="Info">
+	SELECT ai.*,s.scn AS t1,g.scn AS t2,v.scn AS t3,q.scn AS fname,w.scn AS sname FROM `app_info` ai
+LEFT JOIN 
+(SELECT id AS sid,categoryName AS scn FROM `app_category`) s 
+ON ai.`categoryLevel1`=sid
+LEFT JOIN 
+(SELECT id AS gid,categoryName AS scn FROM `app_category`) g 
+ON ai.`categoryLevel2`=gid
+LEFT JOIN 
+(SELECT id AS vid,categoryName AS scn FROM `app_category`) v 
+ON ai.`categoryLevel3`=vid
+LEFT JOIN 
+(SELECT valueid AS qid,valuename  AS scn FROM `data_dictionary` WHERE typecode="APP_FLATFORM") q 
+ON ai.flatformId=qid
+LEFT JOIN 
+(SELECT valueid AS wid,valuename  AS scn FROM `data_dictionary` WHERE typecode="APP_STATUS") w
+ON ai.status=wid
+<where>
+		<if test="Infovo.infoname!=null and Infovo.infoname!=''"> and softwareName like concat('%',#{Infovo.infoname},'%')</if>
+		<if test="Infovo.flatformId!=null and Infovo.flatformId!=0"> and flatformid = #{Infovo.flatformId}</if>
+		<if test="Infovo.categoryLevel1!=null and Infovo.categoryLevel1!=0"> and categoryLevel1=#{Infovo.categoryLevel1}</if>
+		<if test="Infovo.categoryLevel2!=null and Infovo.categoryLevel2!=0"> and categoryLevel2=#{Infovo.categoryLevel2}</if>
+		<if test="Infovo.categoryLevel3!=null and Infovo.categoryLevel3!=0"> and categoryLevel3=#{Infovo.categoryLevel3}</if>
+		<if test="Infovo.devid!=null">and devid=#{Infovo.devid}</if>
+		<if test="Infovo.status!=null and Infovo.status!=0">and status=#{Infovo.status}</if>
+</where>
+order by creationDate limit #{index},#{pagesize}
+</select>
+
+
+<update id="update">
+	update app_info 
+	<set>
+		<if test="infer.softwarename!=null">softwarename =#{infer.softwarename},</if>
+		<if test="infer.supportrom!=null">supportrom =#{infer.supportrom},</if>
+		<if test="infer.interfacelanguage!=null">interfacelanguage =#{infer.interfacelanguage},</if>
+		<if test="infer.softwaresize!=null">softwaresize =#{infer.softwaresize},</if>
+		<if test="infer.downloads!=null">downloads =#{infer.downloads},</if>
+		<if test="infer.flatformid!=null and infer.downloads!=0">flatformid =#{infer.flatformid},</if>
+		<if test="infer.categorylevel1!=null and infer.categorylevel1!=0">categorylevel1 =#{infer.categorylevel1},</if>
+		<if test="infer.categorylevel2!=null and infer.categorylevel2!=0">categorylevel2 =#{infer.categorylevel2},</if>
+		<if test="infer.categorylevel3!=null and infer.categorylevel3!=0">categorylevel3 =#{infer.categorylevel3},</if>
+		<if test="infer.status!=null and infer.status!=0">status =#{infer.status},</if>
+		<if test="infer.appinfo!=null">appinfo =#{infer.appinfo},</if>
+	</set>
+	where id=#{infer.id}
+</update>
+</mapper>
